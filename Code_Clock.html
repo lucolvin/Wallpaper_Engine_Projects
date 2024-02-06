@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+  <pre><code id="code_time" class="language-javascript" style="font-size:20px; padding: 10px; border-radius: 5px;"></code></pre>
+
+  <script>
+  function showTime() {
+    var date = new Date();
+    var h = getHours(date); 
+    var m = getMinutes(date); 
+    var s = getSeconds(date); 
+    document.getElementById('code_time').textContent = `function getCurrentTime() {
+      function getHours(date) { 
+        var h = date.getHours(); 
+        return checkTime(${h});
+      }
+
+      function getMinutes(date) { 
+        var m = date.getMinutes(); 
+        return checkTime(${m});
+      }
+
+      function getSeconds(date) { 
+        var s = date.getSeconds(); 
+        return checkTime(${s});
+      }
+    }`;
+    Prism.highlightAll();
+    var t = setTimeout(showTime, 100);
+  }
+
+  function getHours(date) {
+    var h = date.getHours();
+    return checkTime(h);
+  }
+
+  function getMinutes(date) {
+    var m = date.getMinutes();
+    return checkTime(m);
+  }
+
+  function getSeconds(date) {
+    var s = date.getSeconds();
+    return checkTime(s);
+  }
+
+  function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+  }
+
+  showTime();
+  </script>
+
+</body>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    margin: 10;
+  }
+</style>
+</html>
