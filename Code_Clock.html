@@ -73,11 +73,17 @@
           var month = date.getMonth();
           return month[${monthWord}] + day[${dayWord}];
         }
-      
       }`;
-  }
+  
 
-  showTime();
+  Prism.highlightAll();
+
+    // Call showTime again after 100 milliseconds
+    setTimeout(showTime, 100);
+}
+
+// Init showTime to start the loop
+showTime();
   </script>
 
 </body>
