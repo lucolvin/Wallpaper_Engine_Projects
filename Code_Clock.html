@@ -8,49 +8,73 @@
   <pre><code id="code_time" class="language-javascript" style="font-size:20px; padding: 10px; border-radius: 5px;"></code></pre>
 
   <script>
-  function showTime() {
-    var date = new Date();
-    var h = getHours(date); 
-    var m = getMinutes(date); 
-    var s = getSeconds(date); 
-    document.getElementById('code_time').textContent = `function getCurrentTime() {
-      function getHours(date) { 
-        var h = date.getHours(); 
-        return checkTime(${h});
-      }
+  var numberWords = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty-one", "twenty-two", "twenty-three", "twenty-four", "twenty-five", "twenty-six", "twenty-seven", "twenty-eight", "twenty-nine", "thirty", "thirty-one", "thirty-two", "thirty-three", "thirty-four", "thirty-five", "thirty-six", "thirty-seven", "thirty-eight", "thirty-nine", "forty", "forty-one", "forty-two", "forty-three", "forty-four", "forty-five", "forty-six", "forty-seven", "forty-eight", "forty-nine", "fifty", "fifty-one", "fifty-two", "fifty-three", "fifty-four", "fifty-five", "fifty-six", "fifty-seven", "fifty-eight", "fifty-nine"];
 
-      function getMinutes(date) { 
-        var m = date.getMinutes(); 
-        return checkTime(${m});
-      }
+  var monthWords = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-      function getSeconds(date) { 
-        var s = date.getSeconds(); 
-        return checkTime(${s});
-      }
-    }`;
-    Prism.highlightAll();
-    var t = setTimeout(showTime, 100);
-  }
+  var daysWords = ["zeroth", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth", "seventeenth", "eighteenth", "nineteenth", "twentieth", "twenty-first", "twenty-second", "twenty-third", "twenty-fourth", "twenty-fifth", "twenty-sixth", "twenty-seventh", "twenty-eighth", "twenty-ninth", "thirtieth", "thirty-first"];
 
   function getHours(date) {
     var h = date.getHours();
-    return checkTime(h);
+    if (h > 12) {
+      h = h - 12;
+    }
+    return numberWords[h];
   }
 
   function getMinutes(date) {
     var m = date.getMinutes();
-    return checkTime(m);
+    return numberWords[m];
   }
 
   function getSeconds(date) {
     var s = date.getSeconds();
-    return checkTime(s);
+    return numberWords[s];
   }
 
-  function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
+  function getDateInWords(date) {
+    var day = date.getDate();
+    var month = date.getMonth();
+    var monthWord = monthWords[month];
+    var dayWord = daysWords[day];
+    return monthWord + " " + dayWord;
+  }
+
+  function showTime() {
+      var date = new Date();
+      var h = getHours(date); 
+      var m = getMinutes(date); 
+      var s = getSeconds(date); 
+
+      // Get the month and day in words
+      var monthWord = monthWords[date.getMonth()];
+      var dayWord = daysWords[date.getDate()];
+
+      document.getElementById('code_time').textContent = `function getCurrentTime() {
+        function getHours(date) {
+          if (date.getHours() > 12) {
+            var h = date.getHours() - 12;
+            return checkTime(${h});
+          }
+        }
+
+        function getMinutes(date) { 
+          var m = date.getMinutes(); 
+          return checkTime(${m});
+        }
+
+        function getSeconds(date) { 
+          var s = date.getSeconds(); 
+          return checkTime(${s});
+        }
+
+        function getDateInWords(date) {
+          var day = date.getDate();
+          var month = date.getMonth();
+          return month[${monthWord}] + day[${dayWord}];
+        }
+      
+      }`;
   }
 
   showTime();
